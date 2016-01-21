@@ -13,28 +13,30 @@ function renderClock() {
 	var D = currentTime.getDate();
 	var h = currentTime.getHours();
 	var m = currentTime.getMinutes();
-	
+	var timeOfDay;
+
 	/* if the Month, Date, hour, or minute is less than 10, prepend a 0
 	   this ensures each value is two characters in length, which in turn
 	   ensures the values aren't visually 'jumping' */
 	if (M < 10) { M = "0" + M; }
 	if (D < 10) { D = "0" + D; }
 	if (h < 10) { h = "0" + h; }
+	if (h > 12) { timeOfDay = "pm"; h -= 12; } else { timeOfDay = "am"; }
 	if (m < 10) { m = "0" + m; }
 
 	/* use vanilla js to get and set the date element to a YYYY.MM.DD format */
 	var myDate = document.getElementById('date') || '';
-	myDate.textContent = Y + "." + M + "." + D;
-	myDate.innerText = Y + "." + M + "." + D;
-	
+	myDate.textContent = M + "." + D + "." + Y;
+	myDate.innerText = M + "." + D + "." + Y;
+
 	/* use vanilla js to get and set the clock element to a HH:MM format */
 	var myClock = document.getElementById('clock')|| '';
-	myClock.textContent = h + ":" + m ;
-	myClock.innerText = h + ":" + m ;
-	
+	myClock.textContent = h + ":" + m + timeOfDay;
+	myClock.innerText = h + ":" + m + timeOfDay;
+
 	/* once time is shown, reduce the update frequency */
-	if (currentTime) { 
-		startUp.config.clockTimeout = 3000; 
+	if (currentTime) {
+		startUp.config.clockTimeout = 3000;
 	}
 
 	/* use setTimout and the startUp.config.clockTimeout to run renderClock again at the appropriate time */
